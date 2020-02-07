@@ -2,6 +2,7 @@ package board.configuration;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,8 +12,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-
-import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:/application.properties")
@@ -44,7 +43,8 @@ public class DatabaseConfiguration {
   public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
     SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
     sqlSessionFactoryBean.setDataSource(dataSource);
-    sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/**/sql-*.xml"));
+    sqlSessionFactoryBean
+        .setMapperLocations(applicationContext.getResources("classpath:mapper/**/sql-*.xml"));
 
     return sqlSessionFactoryBean.getObject();
   }
